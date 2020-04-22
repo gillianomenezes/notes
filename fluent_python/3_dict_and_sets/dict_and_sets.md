@@ -76,3 +76,7 @@ False
 >> a <= b #is it 'a' a subset of 'b'?
 False
 ```
+### Hash Tables
+Python `dict` and `set` classes are implemented in hash tables. A hash table uses a hash function to compute a hash code into an array of buckets or slots, from which the desired value can be found.
+![image](hash_table.png)
+To access the value in `my_dict[search_key]`, the interpreter calls `hash(search_key)` to obtain the _hash value_ of `search_key` and uses the less significants bits of this number as an offset to search for a bucket in the hash table. If the bucket is empty, `KeyError` is raised. Otherwise, the bucket would have an item and the interpreter will verify if `search_key == found_key`. If they are equal, `found_value` will be returned. 
