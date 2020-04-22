@@ -1,7 +1,7 @@
-#Dictionary and Sets
-dict objects keys must be hashable (but the values doesn't need to be). An object is hashable if it has a hash values that never changes along its life cycle (should have __hash__() method) and could be compared to others objects (must have __eq__() method.
+# Dictionary and Sets
+dict objects keys must be hashable (but the values doesn't need to be). An object is hashable if it has a hash values that never changes along its life cycle (should have `__hash__()` method) and could be compared to others objects (must have `__eq__()` method.
 
-###dict comprehension
+###  dict comprehension
 After python 2.7 the listcomps and genexps sintax has been applied to dict comprehensions.
 
 Example:
@@ -11,7 +11,7 @@ Example:
 >> country_codes[55]
 'Brasil'
 ```
-###Handling missing keys with setdefault
+### Handling missing keys with setdefault
 Accordingly to the fail fast philosophy, access to dict with d[k] raises an error when k is a inexistent key. So, if you want to set a value for a dict and handle the inexistent key problem, this could be the first idea that may come to your mind:
 ```
 if key not in my_dict:
@@ -29,7 +29,7 @@ Another solution for the same problem would be the use of collections.defaultdic
 >> my_dict["key"]
 []
 ```
-###Imutable mappings
+### Imutable mappings
 Since Python 3.3 types module offers a wrapper class called MappingProxyType; given an mapping, this class returns an mappingproxy instance, which is a read only view from the original mapping.
 Example:
 ```
@@ -45,7 +45,7 @@ TypeError: 'mappingproxy' object does not support item assignment
 >> d[2]='x'
 >> d_proxy[2]
 ```
-###Set Theory
+### Set Theory
 The sets are a collection of unique objects. An basic use case is to remove duplications:
 ```
 >> set(l)
@@ -54,13 +54,13 @@ The sets are a collection of unique objects. An basic use case is to remove dupl
 ['spam', 'eggs']
 ```
 The set class also implements essetial operations for sets like infix operators; that is, given two sets a and b, a | b returns the union, a & b return the intersection, and a - b returns the difference between both sets.
-###Set comprehensions
+### Set comprehensions
 Set comprehencsions (_setcomps_) were added toPython 2.7 along with dictcomps. Following an example:
 ```
 >> {letter for letter in list("arara")}
 {'a','r'}
 ```
-###Set operations
+### Set operations
 Python `sets` offers math operations. Example below:
 ```
 >> a = {1,2,3}
@@ -76,7 +76,9 @@ False
 >> a <= b #is it 'a' a subset of 'b'?
 False
 ```
-### Hash Tables
+###  Hash Tables
 Python `dict` and `set` classes are implemented in hash tables. A hash table uses a hash function to compute a hash code into an array of buckets or slots, from which the desired value can be found.
+
 ![image](hash_table.png)
+
 To access the value in `my_dict[search_key]`, the interpreter calls `hash(search_key)` to obtain the _hash value_ of `search_key` and uses the less significants bits of this number as an offset to search for a bucket in the hash table. If the bucket is empty, `KeyError` is raised. Otherwise, the bucket would have an item and the interpreter will verify if `search_key == found_key`. If they are equal, `found_value` will be returned. 
