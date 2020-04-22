@@ -61,7 +61,7 @@ Set comprehencsions (_setcomps_) were added toPython 2.7 along with dictcomps. F
 {'a','r'}
 ```
 ### Set operations
-Python `sets` offers math operations. Example below:
+Python `set` offers math operations. Example below:
 ```
 >> a = {1,2,3}
 >> b = {2,3,4}
