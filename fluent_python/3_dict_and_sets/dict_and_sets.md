@@ -1,5 +1,5 @@
 # Dictionary and Sets
-dict objects keys must be hashable (but the values doesn't need to be). An object is hashable if it has a hash values that never changes along its life cycle (should have `__hash__()` method) and could be compared to others objects (must have `__eq__()` method.
+dict object keys must be hashable (but the values don't need to be). An object is hashable if it has a hash value that never changes along its life cycle (should have `__hash__()` method) and could be compared to others objects (must have `__eq__()` method.
 
 ###  dict comprehension
 After python 2.7 the listcomps and genexps sintax has been applied to dict comprehensions.
@@ -12,7 +12,7 @@ Example:
 'Brasil'
 ```
 ### Handling missing keys with setdefault
-Accordingly to the fail fast philosophy, access to dict with d[k] raises an error when k is a inexistent key. So, if you want to set a value for a dict and handle the inexistent key problem, this could be the first idea that may come to your mind:
+Accordingly to the fail fast philosophy, access to dict with d[k] raises an error when k is an inexistent key. So, if you want to set a value for a `dict` and handle the inexistent key problem, this could be the first idea that may come to your mind:
 ```
 if key not in my_dict:
    my_dict[key] = []
@@ -30,7 +30,7 @@ Another solution for the same problem would be the use of collections.defaultdic
 []
 ```
 ### Imutable mappings
-Since Python 3.3 types module offers a wrapper class called MappingProxyType; given an mapping, this class returns an mappingproxy instance, which is a read only view from the original mapping.
+Since Python 3.3 types module offers a wrapper class called MappingProxyType; given a mapping, this class returns a mappingproxy instance, which is a read only view from the original mapping.
 Example:
 ```
 >> from types import MappingProxyType
@@ -46,16 +46,16 @@ TypeError: 'mappingproxy' object does not support item assignment
 >> d_proxy[2]
 ```
 ### Set Theory
-The sets are a collection of unique objects. An basic use case is to remove duplications:
+The sets are a collection of unique objects. A basic use case is to remove duplications:
 ```
 >> set(l)
 {'spam', 'eggs'}
 >> list(set(l))
 ['spam', 'eggs']
 ```
-The set class also implements essetial operations for sets like infix operators; that is, given two sets a and b, a | b returns the union, a & b return the intersection, and a - b returns the difference between both sets.
+The set class also implements essential operations for sets like infix operators; that is, given two sets a and b, a | b returns the union, a & b return the intersection, and a - b returns the difference between both sets.
 ### Set comprehensions
-Set comprehencsions (_setcomps_) were added toPython 2.7 along with dictcomps. Following an example:
+Set comprehensions (_setcomps_) were added to Python 2.7 along with dictcomps. Following an example:
 ```
 >> {letter for letter in list("arara")}
 {'a','r'}
@@ -81,4 +81,4 @@ Python `dict` and `set` classes are implemented in hash tables. A hash table use
 
 ![image](hash_table.png)
 
-To access the value in `my_dict[search_key]`, the interpreter calls `hash(search_key)` to obtain the _hash value_ of `search_key` and uses the less significants bits of this number as an offset to search for a bucket in the hash table. If the bucket is empty, `KeyError` is raised. Otherwise, the bucket would have an item and the interpreter will verify if `search_key == found_key`. If they are equal, `found_value` will be returned. 
+To access the value in `my_dict[search_key]`, the interpreter calls `hash(search_key)` to obtain the _hash value_ of `search_key` and uses the least significants bits of this number as an offset to search for a bucket in the hash table. If the bucket is empty, `KeyError` is raised. Otherwise, the bucket would have an item and the interpreter will verify if `search_key == found_key`. If they are equal, `found_value` will be returned. 
