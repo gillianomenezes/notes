@@ -77,7 +77,7 @@ The code point U+0301 is the COMBINING ACUTE ACCENT . Using it after “e” ren
 >> s2 = 'cafe\u0301' # decomposed "e" and acute accent
 >> len(normalize('NFC', s1)), len(normalize('NFC', s2))
 (4,4)
->> len(normalize('NFD', s1)), len(normalize('NFD', s2)
+>> len(normalize('NFD', s1)), len(normalize('NFD', s2))
 (5,5)
 >> normalize('NFC', s1) == normalize('NFC', s2)
 True
