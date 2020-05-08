@@ -120,5 +120,5 @@ Example using `shave_marks`:
 '“Herr Voß: • 1⁄2 cup of ŒtkerTM caffe latte • bowl of acai.”'
 >> greek = 'Ζέφυρος, Zéfiro'
 >> shave_marks(greek)
-'Ζεφυρος, Zefiro
+'Ζεφυρος, Zefiro'
 ```
