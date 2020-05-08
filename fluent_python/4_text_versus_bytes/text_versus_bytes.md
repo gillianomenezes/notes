@@ -56,3 +56,69 @@ That is how the package Chardet — The Universal Character Encoding Detector wo
 The best practice for handling text is the “Unicode sandwich”. This means that bytes should be decoded to str as early as possible on input (e.g., when opening a file for reading). The “meat” of the sandwich is the business logic of your program, where text handling is done exclusively on str objects. You should never be encoding or decoding in the middle of other processing. On output, the str are encoded to bytes as late as possible.
 ![image](unicode_sandwich.png)
 In Django, for example, your views should output Unicode `str` ; Django itself takes care of encoding the response to bytes , using UTF-8 by default.
+##Normalizing Unicode for Saner Comparisons
+String comparisons are complicated by the fact that Unicode has combining characters: diacritics and other marks that attach to the preceding character,appearing as one when printed.
+```
+>> s1 = 'café'
+>> s2 = 'cafe\u0301'
+>> s1, s2
+('café','café')
+>> len(s1), len(s2)
+(4,5)
+>> s1 == s2
+False
+```
+The code point U+0301 is the COMBINING ACUTE ACCENT . Using it after “e” renders “é”. The solution is to use Unicode normalization, provided by the `unicodedata.normalize` function:
+```python
+>> from unicodedata import normalize
+>> s1 = 'café' # composed "e" with acute accent
+>> s2 = 'cafe\u0301' # decomposed "e" and acute accent
+>> len(normalize('NFC', s1)), len(normalize('NFC', s2))
+(4,4)
+>> len(normalize('NFD', s1)), len(normalize('NFD', s2)
+(5,5)
+>> normalize('NFC', s1) == normalize('NFC', s2)
+True
+```
+##Case Folding
+Case folding is essentially converting all text to lowercase, with some additional transformations. It is supported by the `str.casefold()` method. 
+For any string s containing only latin1 characters, s.casefold() produces the same result as s.lower() , with only two exceptions—the micro sign 'μ' is changed to the Greek lowercase mu (which looks the same in most fonts) and the German Eszett or “sharp s” (ß) becomes “ss”
+```python
+from unicodedata import name
+>> micro = 'μ'
+>> name(micro)
+'MICRO SIGN'
+>> micro_cf = micro.casefold()
+>> name(micro_cf)
+'GREEK SMALL LETTER MU'
+>> micro, micro_cf
+('μ','μ')
+>> eszett = 'ß'
+>> name(eszett)
+'LATIN SMALL LETTER SHARP S'
+>> eszett_cf = eszett.casefold()
+>> eszett, eszett_cf
+('ß', 'ss')
+```
+##Taking Out Diacritics
+he Google Search secret sauce involves many tricks, but one of them apparently is ignoring diacritics (e.g., accents, cedillas, etc.), at least in some contexts. Outside of searching, getting rid of diacritics also makes for more readable URLs, at least in Latin-based languages.
+```python
+import unicodedata
+import string
+
+def shave_marks(txt)
+    """Remove all diacritic marks"""
+    norm_txt = unicodedata.normalize('NFD', txt) # Decompose all characters into base characters and combining marks.
+    shaved = ''.join(c for c in norm_txt if not unicodedata.combining(c)) # Filter out all combining marks.
+    return unicodedata.normalize('NFC', shaved) # Recompose all characters.
+```
+
+Example using `shave_marks`:
+```python
+>> order = '“Herr Voß: • 1⁄2 cup of ŒtkerTM caffè latte • bowl of açaí.”
+>> shave_marks(order)
+'“Herr Voß: • 1⁄2 cup of ŒtkerTM caffe latte • bowl of acai.”'
+>> greek = 'Ζέφυρος, Zéfiro'
+>> shave_marks(greek)
+'Ζεφυρος, Zefiro
+```
