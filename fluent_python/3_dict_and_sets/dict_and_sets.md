@@ -29,7 +29,7 @@ Another solution for the same problem would be the use of collections.defaultdic
 >> my_dict["key"]
 []
 ```
-### Imutable mappings
+### Imutable mappings - Read Only dict
 Since Python 3.3 types module offers a wrapper class called MappingProxyType; given a mapping, this class returns a mappingproxy instance, which is a read only view from the original mapping.
 Example:
 ```python
@@ -44,10 +44,12 @@ Traceback (most recent call last):
 TypeError: 'mappingproxy' object does not support item assignment
 >> d[2]='x'
 >> d_proxy[2]
+'x'
 ```
 ### Set Theory
 The sets are a collection of unique objects. A basic use case is to remove duplications:
 ```python
+>> l = ["spam", "spam", "eggs", "spam"]
 >> set(l)
 {'spam', 'eggs'}
 >> list(set(l))
