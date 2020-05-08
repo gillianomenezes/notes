@@ -54,7 +54,9 @@ That is how the package Chardet — The Universal Character Encoding Detector wo
 ```
 ## Handling Text Files
 The best practice for handling text is the “Unicode sandwich”. This means that bytes should be decoded to str as early as possible on input (e.g., when opening a file for reading). The “meat” of the sandwich is the business logic of your program, where text handling is done exclusively on str objects. You should never be encoding or decoding in the middle of other processing. On output, the str are encoded to bytes as late as possible.
+
 ![image](unicode_sandwich.png)
+
 In Django, for example, your views should output Unicode `str` ; Django itself takes care of encoding the response to bytes , using UTF-8 by default.
 ## Normalizing Unicode for Saner Comparisons
 String comparisons are complicated by the fact that Unicode has combining characters: diacritics and other marks that attach to the preceding character,appearing as one when printed.
