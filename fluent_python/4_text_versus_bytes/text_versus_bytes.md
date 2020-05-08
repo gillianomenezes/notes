@@ -1,4 +1,4 @@
-#Character
+# Character
 The concept of “string” is simple enough: a string is a sequence of characters. The items you get out of a Python 3 `str` are Unicode characters. The identity of a character—its code point—is a number from 0 to 1,114,111 (base 10), shown in the Unicode standard as 4 to 6 hexadecimal digits with a “U+” pre‐fix. The actual bytes that represent a character depend on the encoding in use. An encoding is an algorithm that converts code points to byte sequences and vice versa.
 ``` python
 >> s = 'café'
@@ -20,7 +20,7 @@ latin_1 b'El Ni\xf1o'
 utf_8   b'El Ni\xc3\xb1o'
 utf_16  b'\xff\xfeE\x00l\x00 \x00N\x00i\x00\xf1\x00o\x00'
 ```
-##UnicodeEncodeError
+## UnicodeEncodeError
 When converting text to bytes, if a character is not defined in the target encoding, `UnicodeEncodeError` will be raised, unless special handling is provided by passing an errors argument to the encoding method or function.
 ```python 
 >> city = 'São Paulo'
@@ -44,7 +44,7 @@ b'S?o Paulo'
 >> city.encode('cp437', errors='xmlcharrefreplace') # 'xmlcharrefreplace' replaces unencodable characters with an XML entity.
 b'S&#227;o Paulo'
 ```
-##How to Discover the Encoding of a Byte Sequence
+## How to Discover the Encoding of a Byte Sequence
 How do you find the encoding of a byte sequence? Short answer: you can’t. You must be told. However, considering that human languages also have their rules and restrictions, once you assume that a stream of bytes is human plain text it may be possible to sniff out its encoding using heuristics and statistics.
 
 That is how the package Chardet — The Universal Character Encoding Detector works to identify one of 30 supported encodings. Chardet is a Python library that you can use in your programs, but also includes a command-line utility, `chardetect`
@@ -52,11 +52,11 @@ That is how the package Chardet — The Universal Character Encoding Detector wo
 >> chardetect 04-text-byte.asciidoc
 04-text-byte.asciidoc: utf-8 with confidence 0.99
 ```
-##Handling Text Files
+## Handling Text Files
 The best practice for handling text is the “Unicode sandwich”. This means that bytes should be decoded to str as early as possible on input (e.g., when opening a file for reading). The “meat” of the sandwich is the business logic of your program, where text handling is done exclusively on str objects. You should never be encoding or decoding in the middle of other processing. On output, the str are encoded to bytes as late as possible.
 ![image](unicode_sandwich.png)
 In Django, for example, your views should output Unicode `str` ; Django itself takes care of encoding the response to bytes , using UTF-8 by default.
-##Normalizing Unicode for Saner Comparisons
+## Normalizing Unicode for Saner Comparisons
 String comparisons are complicated by the fact that Unicode has combining characters: diacritics and other marks that attach to the preceding character,appearing as one when printed.
 ```
 >> s1 = 'café'
@@ -80,7 +80,7 @@ The code point U+0301 is the COMBINING ACUTE ACCENT . Using it after “e” ren
 >> normalize('NFC', s1) == normalize('NFC', s2)
 True
 ```
-##Case Folding
+## Case Folding
 Case folding is essentially converting all text to lowercase, with some additional transformations. It is supported by the `str.casefold()` method. 
 For any string s containing only latin1 characters, s.casefold() produces the same result as s.lower() , with only two exceptions—the micro sign 'μ' is changed to the Greek lowercase mu (which looks the same in most fonts) and the German Eszett or “sharp s” (ß) becomes “ss”
 ```python
@@ -100,7 +100,7 @@ from unicodedata import name
 >> eszett, eszett_cf
 ('ß', 'ss')
 ```
-##Taking Out Diacritics
+## Taking Out Diacritics
 he Google Search secret sauce involves many tricks, but one of them apparently is ignoring diacritics (e.g., accents, cedillas, etc.), at least in some contexts. Outside of searching, getting rid of diacritics also makes for more readable URLs, at least in Latin-based languages.
 ```python
 import unicodedata
