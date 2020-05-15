@@ -95,3 +95,58 @@ Here is a simple demo of example above. Note how a bingo instance can be invoked
 >>> callable(bingo)
 True
 ```
+## Function Introspection
+Function objects have many attributes. The following table describes it.
+|Name|Type|Description|
+|---|---|---|---|---|
+|`__anotations__`|dict|Parameter and return annotations|
+|`__call__`|method-wrapper|Implementation of the () operator; a.k.a the callable object protocol|
+|`__closure__`|tuple|The function closure, i.e., bidings for free variables (often is None)|
+|`__code__`|code|Function metadada and function body
+|`__defaults__`|tuple|Default values for the formal parameters|
+|`__get__`|method-wrapper|Implementation of the read-only descriptor protocol|
+|`__globals__`|dict|Global variables of the module where the function os defined|
+|`__kwdefaults`|dict|Degault values for the keyword-only formal parameters|
+|`__name__`|str|The funtion name|
+|`__qualname`|str|The qualified function name, e.g., `Random.choice`|
+## From Positional to Keyword-Only Parameters
+One of the best features of Python functions is the extremely flexible parameter handling mechanism, enhanced with keyword-only arguments in Python 3. Closely related are the use of * and ** to “explode” iterables and mappings into separate arguments when we call a function.
+```python
+def tag(name, *content, cls=None, **attrs):
+    """Generate one or more HTML tags"""
+    if cls is not None:
+        attrs['class'] = cls
+
+    if attrs:
+        attr_str = ''.join(' %s="%s"' % (attr, value)
+                            for attr, value
+                            in sorted(attrs.items()))
+    else:
+        attr_str = ''
+
+    if content:
+        return '\n'.join('<%s%s>%s</%s>' %
+                        (name, attr_str, c, name) for c in content)
+    else:
+        return '<%s%s />' % (name, attr_str)
+```
+Some of the many ways of calling the `tag` function:
+```python
+>>> tag('br') #A single positional argument produces an empty tag with that name.
+'<br />'
+>>> tag('p', 'hello') #Any number of arguments after the first are captured by *content as a tuple .
+'<p>hello</p>'
+>>> print(tag('p', 'hello', 'world'))
+<p>hello</p>
+<p>world</p>
+>>> tag('p', 'hello', id=33) #Keyword arguments not explicitly named in the tag signature are captured by **attrs as a dict .
+'<p id="33">hello</p>'
+>>> print(tag('p', 'hello', 'world', cls='sidebar')) #The cls parameter can only be passed as a keyword argument.
+<p class="sidebar">hello</p>
+<p class="sidebar">world</p>
+>>> tag(content='testing', name="img") #Even the first positional argument can be passed as a keyword when tag is called.
+'<img content="testing" />'
+>>> my_tag = {'name': 'img', 'title': 'Sunset Boulevard', 'src': 'sunset.jpg', 'cls': 'framed'}
+>>> tag(**my_tag) #Prefixing the my_tag dict with ** passes all its items as separate arguments, which are then bound to the named parameters, with the remaining caught by **attrs
+'<img class="framed" src="sunset.jpg" title="Sunset Boulevard" />'
+```
