@@ -98,7 +98,7 @@ True
 ## Function Introspection
 Function objects have many attributes. The following table describes it.
 |Name|Type|Description|
-|---|---|---|---|---|
+|---|---|---|
 |`__anotations__`|dict|Parameter and return annotations|
 |`__call__`|method-wrapper|Implementation of the () operator; a.k.a the callable object protocol|
 |`__closure__`|tuple|The function closure, i.e., bidings for free variables (often is None)|
