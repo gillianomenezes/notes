@@ -50,7 +50,7 @@ Functional languages commonly offer the map , filter , and reduce higher-order f
 The reduce function was demoted from a built-in in Python 2 to the functools module in Python 3. Its most common use case, summation, is better served by the sum built in available since Python 2.3 was released in 2003. This is a big win in terms of readability and performance
 ```python
 >>> from functools import reduce # Starting with Python 3.0, reduce is not a built-in
->>> from functools import reduce # Import add to avoid creating a function just to add two numbers.
+>>> from operator import add # Import add to avoid creating a function just to add two numbers.
 >>> reduce(add, range(100)) # Sum integers up to 99.
 4950
 >>> sum(range(100)) # Same task using sum ; import or adding function not needed.
